@@ -13,6 +13,19 @@ Input: heights of trees below:
 Output:
 `169.375`
 
+let treeHeightArr: [Double] =  [161, 182, 161, 154, 176, 170, 167, 171, 170, 174]
+let treeHeightSet = Set(treeHeightArr)
+var sumOfHeight = Double()
+
+for x in treeHeightSet {
+sumOfHeight = sumOfHeight + x
+}
+var averageHeight: Double = sumOfHeight / Double(treeHeightSet.count)
+print(averageHeight)
+
+
+
+
 
 ## Question 2
 
@@ -20,6 +33,51 @@ Determine if a String is a pangram. A pangram is a string that contains every le
 
  e.g `"The quick brown fox jumps over the lazy dog"` is a pangram
  e.g `"The quick brown fox jumped over the lazy dog"` is NOT a pangram
+
+//SOLUTION ONE 
+//(this was the solution i came to before realizing that making a string into a set automaticly splits the words into characters not strings)
+
+var sentence = "The quick brown fox jumps over the lazy dog"
+sentence = sentence.lowercased()
+
+var char = Set<Character>()
+for a in sentence {
+if a == a {
+char.insert(a)
+}
+}
+char.remove(" ")
+
+let alphabet: Set<Character> = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+
+var intersect: Set<Character> = char.symmetricDifference(alphabet)
+
+if intersect.count == 0 {
+print("its a pangram")
+} else {
+print("not pangram")
+}
+
+
+
+//SOLUTION TWO
+//(this was the simplier solution which i didnt realize was possible since i thought the original sentence needed to be broken into characters, and didnt realize this naturally happens when a string is made into a set )
+
+var secondSentence = "The quick brown fox jumped over the lazy dog"
+secondSentence = secondSentence.lowercased()
+var secondSentenceSet = Set(secondSentence)
+print(secondSentenceSet)
+
+var alphabet = "abcdefghijklmnopqrstuvwxyz"
+var setAlphabet = Set(alphabet)
+
+if secondSentenceSet.isSuperset(of: alphabet) {
+print("its a pangram")
+} else {
+print("not pangram")
+}
+
+
 
 
 ## Question 3
@@ -40,6 +98,35 @@ You are given an array `nums` representing the data status of the set S after th
  Input: `nums = [2,2]`
  Output: `[2,1]`
 
+// ( i know this dosent use strings to answer the question and will only work for the contex of the question and the orders moving in an asscending order but people said this wouldn't work so naturally i was determined to prove it does)
+
+var nums = [1,2,2,4,]
+var answer = [Int]()
+
+var extraNum = Int()
+var missingNum = Int()
+
+for x in nums {
+if x != extraNum {
+extraNum = x
+} else {
+answer.append(x)
+}
+}
+
+for i in 1...nums.count {
+if nums.contains(i) {
+
+} else {
+answer.append(i)
+}
+}
+print(answer)
+
+
+
+
+
 
 ## Question 4
 
@@ -51,6 +138,30 @@ let arr2 = [1, 2, 3, 4, 5, 6]
 let arr3 = [5, 6, 7, 8, 9, 10, 11, 12]
 let arr4 = [1, 3, 4, 5, 6, 7, 9]
 ```
+// (we did this one in class and this was the answer i first came to, i understand theres better ways to get there then this but this was the way i first thought to solve it)
+
+let arr1 = [2, 4, 5, 6, 8, 10, 12]
+let arr2 = [1, 2, 3, 4, 5, 6]
+let arr3 = [5, 6, 7, 8, 9, 10, 11, 12]
+let arr4 = [1, 3, 4, 5, 6, 7, 9]
+
+var set1 = Set(arr1)
+var set2 = Set(arr2)
+var set3 = Set(arr3)
+var set4 = Set(arr4)
+
+let setUnion = set1.union(set2)
+let secondUnion = setUnion.union(set3)
+let thirdUnion = secondUnion.union(set4)
+
+var finalArray = Array(thirdUnion)
+
+finalArray = finalArray.sorted()
+
+print(finalArray)
+
+
+
 
 
 ## Question 5
@@ -66,6 +177,24 @@ Perform the following set operations on the lists below:
 let list1: Set = [1, 3, 4, 6, 2, 7, 9]
 let list2: Set = [3, 7, 13, 10, 4]
 ```
+
+let list1: Set = [1, 3, 4, 6, 2, 7, 9]
+let list2: Set = [3, 7, 13, 10, 4]
+
+let intersect = list1.intersection(list2)
+print(intersect)
+
+let symDiff = list1.symmetricDifference(list2)
+print(symDiff)
+
+let unity = list1.union(list2)
+print(unity)
+
+let subtracted = list1.subtracting(list2)
+print(subtracted)
+
+
+
 
 
 ## Question 6
@@ -90,6 +219,20 @@ print(spaceships.count)
 - This code will not compile
 - 1
 - This code will compile but crash
+
+
+
+//  my original answer was 4 but then ran the code and realized the variable was never declared or initialized properly, and also that the last line  using.insert() is inserting a value that laready exist in the set and therefor will have no effect on the contents of the string.  if the point was to declare an empty set then the variable would have neeed to be declared as such:    var spaceships = Set<String>()    once this was done then the final print statment would have worked and would ahve returned the answer as the integer 3
+
+//the code below has been corrected
+var spaceships = Set<String>()
+
+spaceships.insert("Serenity")
+spaceships.insert("Enterprise")
+spaceships.insert("TARDIS")
+spaceships.insert("Serenity")
+
+print(spaceships.count)
 
 
 ## Question 7
@@ -117,3 +260,22 @@ if spaceships1.isSubset(of: spaceships2) {
 - This code will not compile
 - "This is a subset"
 - Nothing will be output
+
+
+
+//Considering the above example and this example both use the name incorrect declaration of a variable as set this code will not compile.  Once this variable is properly declared as    var spaceships1 = Set<String>()  then the code will compile and since spaceships1 is identical to spaceship2 they are both subsets and supersets of each other.
+
+//the code below has been corrected
+var spaceships1 = Set<String>()
+
+spaceships1.insert("Serenity")
+spaceships1.insert("Enterprise")
+spaceships1.insert("TARDIS")
+
+let spaceships2 = spaceships1
+
+if spaceships1.isSubset(of: spaceships2) {
+print("This is a subset")
+} else {
+print("This is not a subset")
+}
